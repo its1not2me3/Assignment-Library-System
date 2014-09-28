@@ -10,6 +10,7 @@ import java.util.Date;
 import java.sql.*;
 
 
+
 public class Receptionist extends User {
 	
 	/**
@@ -23,40 +24,11 @@ public class Receptionist extends User {
 	 * @param uLastName 
 	 * @param uFirstName 
 	 * @param uID 
+	 * @return 
 	 * 
 	 */
-	public static void main(String args[]) 
-    {  
-    try  
-    { 
-         // Load the SQLServerDriver class, build the 
-         // connection string, and get a connection 
-         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); 
-         String connectionUrl = "jdbc:sqlserver://ZAPHOD\\sqlexpress;" + 
-                                 "database=Programming Assignment;" + 
-                                 "user=user;" + 
-                                 "password=Password"; 
-         Connection con = DriverManager.getConnection(connectionUrl); 
-         System.out.println("Connected."); 
-
-         // Create and execute an SQL statement that returns some data.  
-         String SQL = "SELECT CustomerID, ContactName FROM Customers";  
-         Statement stmt = con.createStatement();  
-         ResultSet rs = stmt.executeQuery(SQL);
-
-         // Iterate through the data in the result set and display it.  
-         while (rs.next())  
-         {  
-            System.out.println(rs.getString(1) + " " + rs.getString(2));  
-         }
-
-    }  
-    catch(Exception e)  
-    { 
-         System.out.println(e.getMessage()); 
-         System.exit(0);  
-    } 
-    } 
+	
+	 
 	public Receptionist(int uID, String uFirstName, String uLastName, String uTitle, String uPhone, String uEmail, String uAddress, Date uDOB, String uUsername, String uPassword) {
 		// TODO Auto-generated constructor stub
 	}
@@ -83,60 +55,23 @@ public class Receptionist extends User {
 	}
 	
 	public void addACustomer(String input_FirstName,String input_LastName,String input_Address,String input_Email,Date input_DOB,String input_Phone,Double input_Balance){
-		/* use [Programming Assignment]
-		insert into customers
-		values(
-		--------------Automatic ID------------------
-		case
-			when (select Max(CID) from customers)>0
-			then (select Max(CID) from customers)+1
-			else 1000001
-		end,
-		--------------------------------------------
-		input_FirstName,
-		input_LastName,
-		input_Address,
-		input_Email,
-		input_DOB,
-		input_Phone,
-		input_Balance */
-		
-		
-		try{
-			//init driver to access the database:
-			//creates new statement object that is run as an SQL query:
-			//creates object Statement 'connectDriver' which will generate session with database, and allows for commands to be given to database, and responses recieved
-			//login_DSN is data source connecting to the database, created in setup ODBC data sources  
-			//insert statement. Can use normal SQL queries withing quotes in executeUpdate("SQL statment");
-			//the false true for staff, admin or true = 1, receptionist is false = 0
-			//commit runs all previous lines as one block, not runs one line then the next
-			
-			//Sets up connection with database
-			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-			Connection connectDriver = DriverManager.getConnection("jdbc:odbc:Archive_DSN");
-			Statement insertStatement = connectDriver.createStatement();
-			
-			//SQL querys:
-			
-			
-				
-			
-			insertStatement.executeUpdate("INSERT INTO Customer ('" + inputID + "', '" 
-					+ input_FirstName + "', '"
-					+ input_LastName + "', '"
-					+ input_Address + "', '"
-					+ input_Email + "', '"
-					+ input_DOB + "', '"
-					+ input_Phone + "', '"
-					+ input_Balance + "', '"
-					+ input_Password + "');");
-			
-			
-			connectDriver.commit();
-			
-		}catch(Exception e){
-			System.err.println(e);
-		}
+		SQLCommands.update("customer","USE [Programming Assignment]"
+					+ "insert into customers"
+					+ "values("
+					+ "--------------Automatic ID------------------"
+					+ "case"
+					+	"when (select Max(CID) from customers)>0"
+					+	"then (select Max(CID) from customers)+1"
+					+	"else 1000001"
+					+ "end,"
+					+ "--------------------------------------------"
+					+ input_FirstName + ","
+					+ input_LastName + ","
+					+ input_Address + ","
+					+ input_Email + ","
+					+ input_DOB + ","
+					+ input_Phone + ","
+					+ input_Balance );
 	}
 	
 	public void updateCustomerInfo(){
