@@ -7,6 +7,7 @@
 package User;
 
 import java.util.Date;
+import java.sql.*;
 
 
 public class Receptionist extends User {
@@ -24,6 +25,38 @@ public class Receptionist extends User {
 	 * @param uID 
 	 * 
 	 */
+	public static void main(String args[]) 
+    {  
+    try  
+    { 
+         // Load the SQLServerDriver class, build the 
+         // connection string, and get a connection 
+         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); 
+         String connectionUrl = "jdbc:sqlserver://ZAPHOD\\sqlexpress;" + 
+                                 "database=Programming Assignment;" + 
+                                 "user=user;" + 
+                                 "password=Password"; 
+         Connection con = DriverManager.getConnection(connectionUrl); 
+         System.out.println("Connected."); 
+
+         // Create and execute an SQL statement that returns some data.  
+         String SQL = "SELECT CustomerID, ContactName FROM Customers";  
+         Statement stmt = con.createStatement();  
+         ResultSet rs = stmt.executeQuery(SQL);
+
+         // Iterate through the data in the result set and display it.  
+         while (rs.next())  
+         {  
+            System.out.println(rs.getString(1) + " " + rs.getString(2));  
+         }
+
+    }  
+    catch(Exception e)  
+    { 
+         System.out.println(e.getMessage()); 
+         System.exit(0);  
+    } 
+    } 
 	public Receptionist(int uID, String uFirstName, String uLastName, String uTitle, String uPhone, String uEmail, String uAddress, Date uDOB, String uUsername, String uPassword) {
 		// TODO Auto-generated constructor stub
 	}
@@ -43,7 +76,6 @@ public class Receptionist extends User {
 	public void searchCustomer(String input){
 		/* SELECT CID, (Name_F + ' ' + name_L) AS Name, Email FROM customers WHERE Fname like input */
 		/* SELECT CID, (Name_F + ' ' + name_L) AS Name, Email FROM customers WHERE Lname like input */
-		/*test*/
 	}
 	
 	public void checkCustomerRecords(int CID){
