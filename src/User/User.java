@@ -186,13 +186,5 @@ public abstract class User  {
 	public void setCity(String city) {
 		City = city;
 	}
-
-	public void login() {
-
-	}
-
-	public void logout() {
-		
-	}
 	
 }

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package User;
+package LibrarySystem;
 
 import java.sql.*;
 
