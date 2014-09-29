@@ -48,8 +48,7 @@ public class Receptionist extends User {
 	}
 	
 	public void searchCustomer(String input){
-		/* SELECT CID, (Name_F + ' ' + name_L) AS Name, Email FROM customers WHERE Fname like input */
-		/* SELECT CID, (Name_F + ' ' + name_L) AS Name, Email FROM customers WHERE Lname like input */
+		SQLCommands.select("customers","CID, (Name_F + ' ' + name_L) AS Name, Email","(Fname like " + input + " or Lname like" + input);
 	}
 	
 	public void checkCustomerRecords(int CID){
@@ -57,7 +56,7 @@ public class Receptionist extends User {
 	}
 	
 	public void addACustomer(String input_FirstName,String input_LastName,String input_Address,String input_Email,Date input_DOB,String input_Phone,Double input_Balance){
-		SQLCommands.update("customer","USE [Programming Assignment]"
+		SQLCommands.update("customers","USE [Programming Assignment]"
 					+ "insert into customers"
 					+ "values("
 					+ "--------------Automatic ID------------------"
