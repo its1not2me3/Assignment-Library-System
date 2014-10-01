@@ -39,7 +39,7 @@ public class SQLCommands {
 					+ "values(" + values);
 	}
 	
-	public static String[] select (String table, String columns, String where){
+	public static String[] select(String table, String columns, String where){
 		return SQL("USE [Programming Assignment]"
 				+ "SELECT " + columns
 				+ "FROM " + table
