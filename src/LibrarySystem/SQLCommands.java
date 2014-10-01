@@ -4,46 +4,73 @@
 package LibrarySystem;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Josh
  *
  */
 public class SQLCommands {
-	public static String[] SQL(String statement){
+	public static String[][] SQL(String sql, String[] columns){
 		try{
-		//init driver to access the database:
-		//creates new statement object that is run as an SQL query:
-		//creates object Statement 'connectDriver' which will generate session with database, and allows for commands to be given to database, and responses recieved
-		//Library_System_DSN is data source connecting to the database, created in setup ODBC data sources  
-		//insert statement. Can use normal SQL queries withing quotes in executeUpdate("SQL statment");
-		//the false true for staff, admin or true = 1, receptionist is false = 0
-		//commit runs all previous lines as one block, not runs one line then the next
-		
-		//Sets up connection with database
-		Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-		Connection connectDriver = DriverManager.getConnection("jdbc:odbc:Library_System_DSN");
-		Statement insertStatement = connectDriver.createStatement();
-		//SQL querys:
-		insertStatement.executeUpdate(statement);
-		connectDriver.commit();
-	}catch(Exception e){
+			Connection newConn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Programming Assignment;integratedSecurity=true");
+			Statement newStmt = newConn.createStatement();
+		//SQL queries:
+			if (newStmt.execute(sql)){
+				ResultSet newRs = newStmt.executeQuery(sql);
+				int resultNum = 0;
+				String[][] results = new String[columns.length][];
+				while(newRs.next()){
+					List<String> columnList = new ArrayList<String>();
+					for(String name : columns){
+						columnList.add(newRs.getString(name));
+					}
+					String[] columnArray = new String[columnList.size()];
+					columnList.toArray(columnArray);
+					results[resultNum] = columnArray;
+					}
+				return results;
+			}else{
+				System.out.println("success");
+				return null;
+			}
+		}catch(Exception e){
 		System.err.println(e);
+		return null;
 	}
-		return null/*NEED TO UNDERSTAND JDBC*/;
 }
 
-	public static void update(String table, String values){
+	public static void insert(String table, String values){
 		SQL("USE [Programming Assignment]"
 					+ "insert into " + table
-					+ "values(" + values);
+					+ "values(" + values + ")",
+					null);
 	}
 	
-	public static String[] select (String table, String columns, String where){
+	public static void Delete(String table, String values){
+		SQL("USE [Programming Assignment]"
+					+ "insert into " + table
+					+ "values(" + values + ")",
+					null);
+	}
+	
+	public static String[][] select (String table, String[] columns, String where){
+		String SQLcolumns = null;
+		for(String name : columns){
+			if(SQLcolumns.length()>0){
+				SQLcolumns = SQLcolumns + ", " + name;
+			}else{
+				SQLcolumns = name;
+			}
+        }
 		return SQL("USE [Programming Assignment]"
-				+ "SELECT " + columns
+				+ "SELECT " + SQLcolumns
 				+ "FROM " + table
-				+ "WHERE " + where);
+				+ "WHERE " + where,
+				columns);
+		
 	}
-	
+
+		
 }
