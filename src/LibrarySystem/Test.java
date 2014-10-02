@@ -6,15 +6,22 @@ package LibrarySystem;
  * 
  */
 
-public class Test extends DatabaseConnect {
-
+public class Test extends SQLCommands {
+	static String database = "Test";
+	static String values = "'1', Name";
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String sqlComand = "CREATE TABLE Test(ID int PRIMARY KEY NOT NULL, Name varchar(24) DEFAULT	'')";
-		DatabaseConnect connection = new DatabaseConnect();
-		connection.command(sqlComand);
-		connection.command("INSERT INTO Test(1, 'Josiah')");
-		connection.resultSet("SELECT * FROM Test", 24);
+		
+		try {
+			SQLCommands.insert(database, values);
+			System.out.println("Insert Successful");
+			
+			SQLCommands.select(database,"*", "ID = 1");
+			
+		} catch (Exception e) {
+			System.err.println(e);
+		}
 	}
 
 }
